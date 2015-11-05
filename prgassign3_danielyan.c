@@ -3,43 +3,25 @@
 #include <math.h>
 #include <string.h>
 
-/* declare global vars */
-/* define hamming string as a dynamic array of characters */ 
+/**************************
+	Gloable Variables
+**************************/
+int maxLengthHamCode;
+char *hamCode = NULL;
+int parity;
 
-/***************************************************************/
-void PROCEDURE TO SET PARAMETERS FOR HAMMING CODE()
-{
-/* prompt for maximum hamming code length and for even/odd parity */
-/* allocate memory for hamming string based on maximum length and size of a character element*/
-  return;
-}
+char ESC=27; //Used for bold printing of messages
 
-/***************************************************************/
-void PROCEDURE TO CHECK A HAMMING CODE FOR AN ERROR()
-{
-/* declare local vars */
-/* prompt for hamming code as a "string"*/
-/* OUTER LOOP: for each parity bit in the Hamming code*/
-{ /* BEGIN OF OUTER LOOP */
-	/* initialize appropriate local variables */
-   	/* MIDDLE LOOP: for each starting bit of a sequence */
-        	/* INNER LOOP: for each bit to be checked, check value and update parity information for current parity bit*/
-	/* update parity checking by including result for parity bit checked in total */
-} /* END OF OUTER LOOP
+/**************************
+	Function Prototypes
+**************************/
+void displayMenu();
+void enterParameters();
+void checkHammingCode();
 
-/* report error in hamming code based on result from parity bits or report no error if none */
-/* correct hamming code by flipping error bit (if necessary)*/
-  return;
-}
-
-/***************************************************************/
-
-void displayMenu(){
-	printf("1) Enter Parameters\n");
-	printf("2) Check Hamming Code\n");
-	printf("4) Quit Program\n");
-}
-
+/**************************
+	Main Method
+**************************/
 int main(){
 /* print out menu, prompt for choice, and call appropriate procedure until user quits */
 	int choice;
@@ -49,10 +31,12 @@ int main(){
 		scanf("%d", &choice);
 		switch(choice){
 			case 1: 
+				enterParameters();
 				break;
 			case 2: 
+				checkHammingCode();
 				break;
-			case 4:
+			case 3:
 				exit(0);
 				break;
 			default:
@@ -63,4 +47,40 @@ int main(){
 		}
 	}while(choice != 4);
 	return 0;
+}
+
+/**************************
+	Function Definitions
+**************************/
+void displayMenu(){
+	printf("\nGeorgiy Danielyan\n\n");
+	printf("Error detection/correction:\n");
+	printf("---------------------------\n");
+	printf("1) Enter Parameters\n");
+	printf("2) Check Hamming Code\n");
+	printf("3) Quit Program\n\n");
+	printf("Enter selection: ");
+}
+
+void enterParameters(){
+	printf("\nEnter the maximum length: ");
+	scanf("%d", &maxLengthHamCode);
+	printf("\nEnter the parity (0 = even, 1 = odd): ");
+	scanf("%d", &parity);
+}
+
+void checkHammingCode(){
+	// printf("\nEnter the Hamming code: ");
+	// scanf("%s", hamCode);
+
+	// printf("%c[1m",ESC);  /*- turn on bold */
+
+	// if(strlen(hamCode) > maxLengthHamCode){
+	// 	printf("*** Invalid Entry - Exceeds Maximum Code Length of 12\n\n");
+	// }
+	// else{
+
+	// }
+
+	printf("%c[0m",ESC); /* turn off bold */
 }
