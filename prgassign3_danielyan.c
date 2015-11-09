@@ -2,8 +2,7 @@
  * Georgiy Danielyan
  * Comp 222 - Computer Organization
  * Program for error correction 
- * Hamming Code Method
- *
+ * Hamming Code Error Detection and Correction
 */
 #include <stdio.h>
 #include <stdlib.h>
@@ -44,6 +43,7 @@ int main(){
 			checkHammingCode();
 			break;
 		case 3:
+			free(hamCode);
 			exit(0);
 			break;
 		default:
@@ -77,17 +77,17 @@ void enterParameters(){
 }
 
 void checkHammingCode(){
-	// printf("\nEnter the Hamming code: ");
-	// scanf("%s", hamCode);
+	printf("\nEnter the Hamming code: ");
+	scanf("%s", hamCode);
 
-	// printf("%c[1m",ESC);  /*- turn on bold */
+	printf("%c[1m",ESC);  /*- turn on bold */
 
-	// if(strlen(hamCode) > maxLengthHamCode){
-	// 	printf("*** Invalid Entry - Exceeds Maximum Code Length of 12\n\n");
-	// }
-	// else{
+	if(strlen(hamCode) > maxLengthHamCode){
+		printf("*** Invalid Entry - Exceeds Maximum Code Length of 12\n\n");
+	}
+	else{
+		hamCode = (char *)malloc(sizeof(char)*maxLengthHamCode);
+	}
 
-	// }
-
-	// printf("%c[0m",ESC); /* turn off bold */
+	printf("%c[0m",ESC); /* turn off bold */
 }
