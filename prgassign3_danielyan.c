@@ -12,8 +12,8 @@
 /**************************
 	Gloable Variables
 **************************/
-int maxLengthHamCode;
 char *hamCode = NULL;
+int maxLengthHamCode;
 int parity;
 
 char ESC = 27; //Used for bold printing of messages
@@ -29,7 +29,6 @@ void checkHammingCode();
 		Main Method
 **************************/
 int main(){
-/* print out menu, prompt for choice, and call appropriate procedure until user quits */
 	int choice;
 	do{
 		choice = 0;
@@ -48,7 +47,8 @@ int main(){
 			break;
 		default:
 			printf("Invalid selection\n\n");
-			//Clear the input stream in case of error inputs
+
+			//Clear the input stream in case of extraneous inputs.
 			while ((choice = getchar()) != '\n' && choice != EOF);
 			break;	
 		}
@@ -70,24 +70,56 @@ void displayMenu(){
 }
 
 void enterParameters(){
-	printf("\nEnter the maximum length: ");
+	printf("\nEnter the maximum hamLength: ");
 	scanf("%d", &maxLengthHamCode);
+
 	printf("\nEnter the parity (0 = even, 1 = odd): ");
 	scanf("%d", &parity);
+
+	hamCode = (char *)malloc(sizeof(char)*maxLengthHamCode);
 }
 
 void checkHammingCode(){
+
+	// /*- turn on bold */
+	printf("%c[1m",ESC);
+	/* Declare local variables */
+	int pBit;
+	int error = 0;
+	int hamLength;
+
 	printf("\nEnter the Hamming code: ");
-	scanf("%s", hamCode);
-
-	printf("%c[1m",ESC);  /*- turn on bold */
-
-	if(strlen(hamCode) > maxLengthHamCode){
-		printf("*** Invalid Entry - Exceeds Maximum Code Length of 12\n\n");
+	scanf( "%s", hamCode );
+	hamLength = strlen(hamCode);
+	if( hamLength > maxLengthHamCode ){
+		printf("\n*** Invalid Entry - Exceeds Maximum Code Length of %d\n\n", maxLengthHamCode);
 	}
 	else{
-		hamCode = (char *)malloc(sizeof(char)*maxLengthHamCode);
+		/* Checking Hamming code for errors */
+		int a, b, c, count = 0;
+		/* Check for each parity bit */
+		for( a = 1; a < hamLength; a = a*2){
+			pBit = parity;
+			for( b = a; b <= hamLength ; b = c + a ){
+				for( c = b; count != a && c <= hamLength ; c++ ){
+					pBit = pBit^(hamCode[hamLength-c]-'0');
+					count++;
+				} // c loop
+				count = 0;
+			} // b loop
+			error += (pBit * a);
+		} // a loop
+
+		if( error == 0 )
+			printf("\n***There is no bit error.\n");
+		else{
+			printf("\n***There was an error in bit: %d", error);
+			hamCode[hamLength-error] = ( hamCode[hamLength-error]  == '0' ? '1' : '0' ); 
+			printf("\n***The corrected Hamming code is: %s\n", hamCode); 
+		}
 	}
 
-	printf("%c[0m",ESC); /* turn off bold */
+	/* turn off bold */
+	printf("%c[0m",ESC);
 }
+
